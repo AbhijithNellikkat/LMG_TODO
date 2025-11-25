@@ -15,6 +15,7 @@ class CustomEventButton extends StatelessWidget {
     this.borderRadius,
     this.showGradiant = true,
     this.outlineBorder = false,
+    this.shadow = true,
     this.outlineBorderClr,
     this.padding,
     this.margin,
@@ -31,6 +32,7 @@ class CustomEventButton extends StatelessWidget {
   final double? borderRadius;
   final TextStyle? textStyle;
   final bool showGradiant;
+  final bool shadow;
   final EdgeInsetsGeometry? padding;
   final EdgeInsetsGeometry? margin;
   final Color? outlineBorderClr;
@@ -56,13 +58,15 @@ class CustomEventButton extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 35)),
           color: clr ?? Theme.of(context).scaffoldBackgroundColor,
 
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFF5F33E1).withOpacity(0.3),
-              blurRadius: 20,
-              offset: const Offset(0, 10),
-            ),
-          ],
+          boxShadow: shadow
+              ? [
+                  BoxShadow(
+                    color: const Color(0xFF5F33E1).withOpacity(0.3),
+                    blurRadius: 20,
+                    offset: const Offset(0, 10),
+                  ),
+                ]
+              : [],
         ),
         child: Center(
           child: Row(

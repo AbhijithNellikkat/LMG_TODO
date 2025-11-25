@@ -1,5 +1,10 @@
+import 'dart:developer';
+
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:lmg_todo/application/presentation/routes/routes.dart';
 import 'package:lmg_todo/application/presentation/utils/colors.dart';
 import 'package:lmg_todo/application/presentation/utils/constants.dart';
 import 'package:lmg_todo/application/presentation/widgets/custom_event_button.dart';
@@ -22,38 +27,61 @@ class ScreenOnboarding extends StatelessWidget {
             Positioned(
               top: 80,
               left: 70,
-              child: Image.asset(imgStopWatch, width: 50),
+              child: FadeInLeft(
+                animate: true,
+                child: Image.asset(imgStopWatch, width: 50),
+              ),
             ),
 
             Positioned(
               top: 150,
               right: 50,
-              child: Image.asset(imgDeskCal, width: 60),
+              child: FlipInX(
+                animate: true,
+                child: Image.asset(imgDeskCal, width: 60),
+              ),
             ),
 
             Positioned(
               top: 190,
               left: 40,
-              child: Image.asset(imgPieChart, width: 50),
+              child: Spin(
+                animate: true,
+                child: Image.asset(imgPieChart, width: 50),
+              ),
             ),
 
             Positioned(
               bottom: 460,
               right: 40,
-              child: Image.asset(imgNotifications, width: 95),
+              child: FadeInUp(
+                from: 10,
+                animate: true,
+                child: Image.asset(imgNotifications, width: 95),
+              ),
             ),
 
             Positioned(
               bottom: 340,
               left: 30,
-              child: Image.asset(imgVase, width: 50),
+              child: FadeInUp(
+                animate: true,
+                from: 10,
+                child: Image.asset(imgVase, width: 50),
+              ),
             ),
 
             Positioned(
               top: 160,
               left: 0,
               right: 0,
-              child: Center(child: Image.asset(imgGirlLaptop, width: 230)),
+              child: Center(
+                child: FadeInUp(
+                  animate: true,
+                  from: 10,
+                  child: Image.asset(imgGirlLaptop, width: 230),
+                ),
+              ),
             ),
 
             Positioned(
@@ -64,34 +92,46 @@ class ScreenOnboarding extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Text(
-                      "Organize Your Day Easily",
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.headlineMedium!
-                          .copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black87,
-                          ),
+                    child: FadeIn(
+                      animate: true,
+                      child: Text(
+                        "Organize Your Day Easily",
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.headlineMedium!
+                            .copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black87,
+                            ),
+                      ),
                     ),
                   ),
                   adjustHieght(10.h),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 42),
-                    child: Text(
-                      "Stay on top of your tasks with a clean and simple to-do manager designed to keep you focused.",
-                      textAlign: TextAlign.center,
-                      style: Theme.of(
-                        context,
-                      ).textTheme.bodyMedium?.copyWith(fontSize: 13.sp),
+                    child: FadeIn(
+                      animate: true,
+                      child: Text(
+                        "Stay on top of your tasks with a clean and simple to-do manager designed to keep you focused.",
+                        textAlign: TextAlign.center,
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodyMedium?.copyWith(fontSize: 13.sp),
+                      ),
                     ),
                   ),
                   adjustHieght(10.h),
-                  CustomEventButton(
-                    text: "Let's Start",
-                    onTap: () {},
-                    clr: kprimary,
-                    textColr: kwhite,
-                    icon: Icons.arrow_right_alt_outlined,
+                  FadeInLeft(
+                    animate: true,
+                    child: CustomEventButton(
+                      text: "Let's Start",
+                      onTap: () {
+                        log("Onboarding Completed");
+                        Get.toNamed(Routes.navbar);
+                      },
+                      clr: kprimary,
+                      textColr: kwhite,
+                      icon: Icons.arrow_right_alt_outlined,
+                    ),
                   ),
                 ],
               ),

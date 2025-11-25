@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 /// Asset Paths
 const onboardingBgImg = 'assets/images/bg_onbarding_image.png';
 const screenBgImage = 'assets/images/bg_screen_img.png';
+const applogo = 'assets/images/app_logo.png';
 
 // Onboarding Asset Paths
 

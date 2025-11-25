@@ -9,7 +9,7 @@ class AppThemes {
       primaryColor: kprimary,
       brightness: Brightness.light,
 
-      scaffoldBackgroundColor: kwhite,
+      // scaffoldBackgroundColor: kwhite,
       colorScheme: const ColorScheme.light(
         primary: kprimary,
         onPrimary: kwhite,

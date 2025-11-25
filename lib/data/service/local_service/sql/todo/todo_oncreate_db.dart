@@ -28,6 +28,7 @@ class TodoSql {
     ${TodoDetails.colTotalSeconds} INTEGER,
     ${TodoDetails.colRemainingSeconds} INTEGER,
     ${TodoDetails.colStatus} TEXT,
+    ${TodoDetails.colIsRunning} INTEGER,  -- Boolean field (1 for true, 0 for false)
     ${TodoDetails.colCreatedAt} TEXT,
     ${TodoDetails.colUpdatedAt} TEXT
   )

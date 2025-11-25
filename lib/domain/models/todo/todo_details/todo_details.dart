@@ -4,12 +4,15 @@ part 'todo_details.g.dart';
 
 @JsonSerializable()
 class TodoDetails {
+  int? localId;
+
   int? id;
   String? title;
   String? description;
   int? totalSeconds;
   int? remainingSeconds;
   String? status;
+  bool? isRunning;
   DateTime? createdAt;
   DateTime? updatedAt;
 
@@ -20,6 +23,7 @@ class TodoDetails {
     this.totalSeconds,
     this.remainingSeconds,
     this.status,
+    this.isRunning,
     this.createdAt,
     this.updatedAt,
   });
@@ -42,6 +46,7 @@ class TodoDetails {
     int? totalSeconds,
     int? remainingSeconds,
     String? status,
+    bool? isRunning,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -52,7 +57,9 @@ class TodoDetails {
       totalSeconds: totalSeconds ?? this.totalSeconds,
       remainingSeconds: remainingSeconds ?? this.remainingSeconds,
       status: status ?? this.status,
+      isRunning: isRunning ?? this.isRunning,
       createdAt: createdAt ?? this.createdAt,
+
       updatedAt: updatedAt ?? this.updatedAt,
     );
   }
@@ -63,6 +70,7 @@ class TodoDetails {
   static const colDescription = 'description';
   static const colTotalSeconds = 'total_seconds';
   static const colRemainingSeconds = 'remaining_seconds';
+  static const colIsRunning = 'is_running';
   static const colStatus = 'status';
   static const colCreatedAt = 'created_at';
   static const colUpdatedAt = 'updated_at';

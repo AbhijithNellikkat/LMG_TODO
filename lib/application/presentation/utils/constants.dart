@@ -1,7 +1,22 @@
 import 'package:flutter/material.dart';
 
 /// Asset Paths
-const appLogo = 'assets/images/kathalan_logo.png';
+const onboardingBgImg = 'assets/images/bg_onbarding_image.png';
+const screenBgImage = 'assets/images/bg_screen_img.png';
+const applogo = 'assets/images/app_logo.png';
+
+// Onboarding Asset Paths
+
+// Floating illustrations
+const String imgStopWatch = "assets/images/Blue stopwatch with pink arrow.png";
+const String imgPieChart = "assets/images/pie chart.png";
+const String imgGirlLaptop =
+    "assets/images/female sitting on the floor with cup in hand and laptop on leg.png";
+const String imgDeskCal = "assets/images/Blue desk calendar.png";
+const String imgVase = "assets/images/vase with tulips, glasses and pencil.png";
+const String imgPinkCup = "assets/images/close up of pink coffee cup.png";
+const String imgNotifications =
+    "assets/images/multicolored smartphone notifications.png";
 
 /// Error Message
 const errorMessage = 'Something went wrong. Please try again.';

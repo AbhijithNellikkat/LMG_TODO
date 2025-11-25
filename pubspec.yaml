@@ -44,6 +44,8 @@ dependencies:
   json_annotation: ^4.9.0
   dartz: ^0.10.1
   iconsax: ^0.0.8
+  animated_text_kit: ^4.3.0
+  
 
 dev_dependencies:
   flutter_test:
@@ -56,7 +58,18 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
   build_runner: ^2.10.4
+  circle_nav_bar: ^2.2.0
+  carousel_slider: ^5.1.1
+  flutter_launcher_icons: ^0.14.4
+  calendar_view: ^1.4.0
+  
 
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/app_logo.png"
+  min_sdk_android: 21  
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -69,8 +82,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/images/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -84,17 +97,27 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
+  fonts:
+    - family: Lufga
+      fonts:
+        - asset: assets/fonts/lufga/LufgaBlack.ttf
+        - asset: assets/fonts/lufga/LufgaBlackItalic.ttf
+        - asset: assets/fonts/lufga/LufgaBold.ttf
+        - asset: assets/fonts/lufga/LufgaBoldItalic.ttf
+        - asset: assets/fonts/lufga/LufgaExtraBold.ttf
+        - asset: assets/fonts/lufga/LufgaExtraBoldItalic.ttf
+        - asset: assets/fonts/lufga/LufgaExtraLight.ttf
+        - asset: assets/fonts/lufga/LufgaExtraLightItalic.ttf
+        - asset: assets/fonts/lufga/LufgaItalic.ttf
+        - asset: assets/fonts/lufga/LufgaLight.ttf
+        - asset: assets/fonts/lufga/LufgaLightItalic.ttf
+        - asset: assets/fonts/lufga/LufgaMedium.ttf
+        - asset: assets/fonts/lufga/LufgaMediumItalic.ttf
+        - asset: assets/fonts/lufga/LufgaRegular.ttf
+        - asset: assets/fonts/lufga/LufgaSemiBold.ttf
+        - asset: assets/fonts/lufga/LufgaSemiBoldItalic.ttf
+        - asset: assets/fonts/lufga/LufgaThin.ttf
+        - asset: assets/fonts/lufga/LufgaThinItalic.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package

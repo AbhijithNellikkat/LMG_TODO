@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'package:lmg_todo/application/presentation/screens/home/widgets/header_with_carousel.dart';
-import 'package:lmg_todo/application/presentation/screens/home/widgets/search_bar.dart';
-import 'package:lmg_todo/application/presentation/screens/home/widgets/todos_list.dart';
-import 'package:lmg_todo/application/presentation/utils/constants.dart';
+import 'package:lmg_todo/todo%20app%20/application/presentation/screens/home/widgets/header_with_carousel.dart';
+import 'package:lmg_todo/todo%20app%20/application/presentation/screens/home/widgets/search_bar.dart';
+import 'package:lmg_todo/todo%20app%20/application/presentation/screens/home/widgets/todos_list.dart';
+import 'package:lmg_todo/todo%20app%20/application/presentation/utils/constants.dart';
 
 class ScreenHome extends StatelessWidget {
   const ScreenHome({super.key});

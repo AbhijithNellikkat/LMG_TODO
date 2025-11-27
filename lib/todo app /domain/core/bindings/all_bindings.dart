@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
-import 'package:lmg_todo/application/controller/navbar_controller.dart';
-import 'package:lmg_todo/application/controller/todo_controller.dart';
-import 'package:lmg_todo/application/controller/todo_details_controller.dart';
+import 'package:lmg_todo/todo%20app%20/application/controller/navbar_controller.dart';
+import 'package:lmg_todo/todo%20app%20/application/controller/todo_controller.dart';
+import 'package:lmg_todo/todo%20app%20/application/controller/todo_details_controller.dart';
 
 class AllControllerBindings implements Bindings {
   @override

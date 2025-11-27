@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:lmg_todo/application/presentation/routes/routes_generators.dart';
-import 'package:lmg_todo/application/presentation/theme/app_theme.dart';
-import 'package:lmg_todo/domain/core/bindings/all_bindings.dart';
+import 'package:lmg_todo/todo%20app%20/application/presentation/routes/routes_generators.dart';
+import 'package:lmg_todo/todo%20app%20/application/presentation/theme/app_theme.dart';
+import 'package:lmg_todo/todo%20app%20/domain/core/bindings/all_bindings.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() {

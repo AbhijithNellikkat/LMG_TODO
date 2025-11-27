@@ -1,10 +1,10 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lmg_todo/application/presentation/utils/colors.dart';
-import 'package:lmg_todo/application/presentation/utils/tost/flutter_tost.dart';
-import 'package:lmg_todo/data/service/todo/todo_service.dart';
-import 'package:lmg_todo/domain/models/todo/todo_details/todo_details.dart';
+import 'package:lmg_todo/todo%20app%20/application/presentation/utils/colors.dart';
+import 'package:lmg_todo/todo%20app%20/application/presentation/utils/tost/flutter_tost.dart';
+import 'package:lmg_todo/todo%20app%20/data/service/todo/todo_service.dart';
+import 'package:lmg_todo/todo%20app%20/domain/models/todo/todo_details/todo_details.dart';
 
 class TodoController extends GetxController {
   final TodoService service = TodoService();

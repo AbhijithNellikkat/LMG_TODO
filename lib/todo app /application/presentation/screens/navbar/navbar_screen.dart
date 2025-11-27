@@ -4,13 +4,13 @@ import 'package:circle_nav_bar/circle_nav_bar.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:lmg_todo/application/controller/navbar_controller.dart';
-import 'package:lmg_todo/application/presentation/screens/add_or_edit/add_edit_screen.dart';
-import 'package:lmg_todo/application/presentation/screens/calendar/calendar_screen.dart';
-import 'package:lmg_todo/application/presentation/screens/home/home_screen.dart';
-import 'package:lmg_todo/application/presentation/utils/colors.dart';
-import 'package:lmg_todo/application/presentation/utils/constants.dart';
-import 'package:lmg_todo/application/presentation/utils/tost/flutter_tost.dart';
+import 'package:lmg_todo/todo%20app%20/application/controller/navbar_controller.dart';
+import 'package:lmg_todo/todo%20app%20/application/presentation/screens/add_or_edit/add_edit_screen.dart';
+import 'package:lmg_todo/todo%20app%20/application/presentation/screens/calendar/calendar_screen.dart';
+import 'package:lmg_todo/todo%20app%20/application/presentation/screens/home/home_screen.dart';
+import 'package:lmg_todo/todo%20app%20/application/presentation/utils/colors.dart';
+import 'package:lmg_todo/todo%20app%20/application/presentation/utils/constants.dart';
+import 'package:lmg_todo/todo%20app%20/application/presentation/utils/tost/flutter_tost.dart';
 
 // ignore: must_be_immutable
 class ScreenNavbar extends StatelessWidget {

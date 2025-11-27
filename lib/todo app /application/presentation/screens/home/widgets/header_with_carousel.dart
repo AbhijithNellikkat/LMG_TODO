@@ -114,6 +114,7 @@ class HeaderWithCarousel extends StatelessWidget {
                           adjustHieght(1.h),
                           Text(
                             todo.description,
+                            maxLines: 2,
                             style: Theme.of(context).textTheme.bodyMedium
                                 ?.copyWith(color: kwhite, fontSize: 13.sp),
                           ),

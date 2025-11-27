@@ -15,6 +15,7 @@ class HeaderWithCarousel extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.find<TodoController>();
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Align(
           alignment: Alignment.centerLeft,
@@ -77,7 +78,11 @@ class HeaderWithCarousel extends StatelessWidget {
                   return Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: kprimary.withOpacity(0.8),
+                      gradient: LinearGradient(
+                        colors: [kprimary, kprimary.withOpacity(0.2)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
@@ -105,11 +110,21 @@ class HeaderWithCarousel extends StatelessWidget {
                                   fontSize: 23.sp,
                                 ),
                           ),
+
                           adjustHieght(1.h),
                           Text(
-                            formatSeconds(todo.totalSeconds),
+                            todo.description,
                             style: Theme.of(context).textTheme.bodyMedium
                                 ?.copyWith(color: kwhite, fontSize: 13.sp),
+                          ),
+                          Align(
+                            alignment: Alignment.bottomRight,
+
+                            child: Text(
+                              formatSeconds(todo.totalSeconds),
+                              style: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(color: kwhite, fontSize: 15.sp),
+                            ),
                           ),
                         ],
                       ),

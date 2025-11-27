@@ -40,8 +40,6 @@ dependencies:
   intl: ^0.20.2
   fluttertoast: ^9.0.0
   flutter_screenutil: ^5.9.3
-  json_serializable: ^6.11.2
-  json_annotation: ^4.9.0
   dartz: ^0.10.1
   iconsax: ^0.0.8
   animated_text_kit: ^4.3.0
@@ -57,7 +55,6 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
-  build_runner: ^2.10.4
   circle_nav_bar: ^2.2.0
   carousel_slider: ^5.1.1
   flutter_launcher_icons: ^0.14.4

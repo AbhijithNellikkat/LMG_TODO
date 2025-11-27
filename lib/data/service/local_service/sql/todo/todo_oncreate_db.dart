@@ -22,7 +22,6 @@ class TodoSql {
       '''
   CREATE TABLE IF NOT EXISTS $todosTable (
     ${TodoDetails.colTodoLocalId} INTEGER PRIMARY KEY AUTOINCREMENT,
-    ${TodoDetails.colTodoId} TEXT,
     ${TodoDetails.colTitle} TEXT,
     ${TodoDetails.colDescription} TEXT,
     ${TodoDetails.colTotalSeconds} INTEGER,

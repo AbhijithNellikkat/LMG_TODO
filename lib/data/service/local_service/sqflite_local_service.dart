@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:lmg_todo/data/service/local_service/sql/oncreate_db.dart';
+import 'package:lmg_todo/data/service/local_service/sql/todo/todo_oncreate_db.dart';
 import 'package:sqflite/sqflite.dart' as sql;
 
 class LocalService {
@@ -22,7 +22,8 @@ class LocalService {
     return await sql.openDatabase(
       path,
       version: _databaseVersion,
-      onCreate: (sql.Database db, int version) async => await Sql.onCreate(db),
+      onCreate: (sql.Database db, int version) async =>
+          await TodoSql.onCreate(db),
     );
   }
 

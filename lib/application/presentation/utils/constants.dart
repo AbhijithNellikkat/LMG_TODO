@@ -18,6 +18,8 @@ const String imgPinkCup = "assets/images/close up of pink coffee cup.png";
 const String imgNotifications =
     "assets/images/multicolored smartphone notifications.png";
 
+const String emptyDataImage = "assets/images/empty_data.png";
+
 /// Error Message
 const errorMessage = 'Something went wrong. Please try again.';
 
@@ -64,4 +66,6 @@ enum Validate {
   dateOfBirth,
   accountHolderName,
   accountNumber,
+  maxMinutes,
+  maxSeconds,
 }

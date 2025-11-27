@@ -1,9 +1,10 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:circle_nav_bar/circle_nav_bar.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lmg_todo/application/controller/navbar_controller.dart';
-import 'package:lmg_todo/application/presentation/screens/add_todo/add_todo_screen.dart';
+import 'package:lmg_todo/application/presentation/screens/add_or_edit/add_edit_screen.dart';
 import 'package:lmg_todo/application/presentation/screens/calendar/calendar_screen.dart';
 import 'package:lmg_todo/application/presentation/screens/home/home_screen.dart';
 import 'package:lmg_todo/application/presentation/utils/colors.dart';
@@ -28,21 +29,25 @@ class ScreenNavbar extends StatelessWidget {
         ),
         child: Obx(() => pages[navbarController.currentIndex.value]),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showModalBottomSheet(
-            context: context,
-            isScrollControlled: true,
-            showDragHandle: true,
-            isDismissible: true,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
-            ),
-            builder: (context) => AddTodoBottomSheet(),
-          );
-        },
-        backgroundColor: kprimary.withOpacity(0.7),
-        child: Icon(Iconsax.add, color: kwhite),
+      floatingActionButton: Pulse(
+        animate: true,
+
+        child: FloatingActionButton(
+          onPressed: () {
+            showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              showDragHandle: true,
+              isDismissible: true,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+              ),
+              builder: (context) => AddEditTodoBottomSheet(),
+            );
+          },
+          backgroundColor: kprimary.withOpacity(0.7),
+          child: Icon(Iconsax.add, color: kwhite),
+        ),
       ),
       bottomNavigationBar: Obx(
         () => CircleNavBar(

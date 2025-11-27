@@ -46,6 +46,12 @@ class _AddEditTodoBottomSheetState extends State<AddEditTodoBottomSheet> {
 
     return Container(
       height: height,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage(screenBgImage),
+          fit: BoxFit.cover,
+        ),
+      ),
       padding: const EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

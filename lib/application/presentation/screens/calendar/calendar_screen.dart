@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lmg_todo/application/presentation/utils/colors.dart';
+import 'package:lmg_todo/application/presentation/utils/constants.dart';
 
 import '../../../controller/todo_controller.dart';
 
@@ -100,6 +101,7 @@ class ScreenCalendar extends StatelessWidget {
 
             onCellTap: (events, date) {
               showModalBottomSheet(
+                showDragHandle: true,
                 context: context,
                 builder: (_) => _TodoListForDay(events: events, date: date),
               );
@@ -121,13 +123,23 @@ class _TodoListForDay extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage(screenBgImage),
+          fit: BoxFit.cover,
+        ),
+      ),
       height: 400,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             "Todos on ${date.day}-${date.month}-${date.year}",
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              fontSize: 15.sp,
+
+              fontWeight: FontWeight.w500,
+            ),
           ),
           const SizedBox(height: 20),
           Expanded(
@@ -141,9 +153,17 @@ class _TodoListForDay extends StatelessWidget {
                       return Card(
                         margin: const EdgeInsets.only(bottom: 10),
                         child: ListTile(
-                          title: Text(e.title),
+                          title: Text(
+                            e.title,
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(
+                                  fontSize: 14.sp,
+
+                                  fontWeight: FontWeight.w500,
+                                ),
+                          ),
                           subtitle: Text(e.description ?? ''),
-                          trailing: const Icon(Iconsax.arrow_right_3),
+
                           onTap: () {},
                         ),
                       );

@@ -3,8 +3,8 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:lmg_todo/application/presentation/utils/colors.dart';
-import 'package:lmg_todo/application/presentation/utils/constants.dart';
+import 'package:lmg_todo/todo%20app%20/application/presentation/utils/colors.dart';
+import 'package:lmg_todo/todo%20app%20/application/presentation/utils/constants.dart';
 
 import '../../widgets/custom_event_button.dart';
 

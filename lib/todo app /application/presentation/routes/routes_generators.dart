@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
-import 'package:lmg_todo/application/presentation/screens/calendar/calendar_screen.dart';
-import 'package:lmg_todo/application/presentation/screens/home/home_screen.dart';
-import 'package:lmg_todo/application/presentation/screens/navbar/navbar_screen.dart';
-import 'package:lmg_todo/application/presentation/screens/onboarding/onboarding_screen.dart';
-import 'package:lmg_todo/application/presentation/screens/todo_details/todo_details_screen.dart';
+import 'package:lmg_todo/todo%20app%20/application/presentation/screens/calendar/calendar_screen.dart';
+import 'package:lmg_todo/todo%20app%20/application/presentation/screens/home/home_screen.dart';
+import 'package:lmg_todo/todo%20app%20/application/presentation/screens/navbar/navbar_screen.dart';
+import 'package:lmg_todo/todo%20app%20/application/presentation/screens/onboarding/onboarding_screen.dart';
+import 'package:lmg_todo/todo%20app%20/application/presentation/screens/todo_details/todo_details_screen.dart';
 
 import 'routes.dart';
 

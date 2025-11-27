@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:lmg_todo/domain/models/todo/todo_details/todo_details.dart';
+import 'package:lmg_todo/todo%20app%20/domain/models/todo/todo_details/todo_details.dart';
 import 'package:sqflite/sqflite.dart' as sql;
 
 class TodoSql {

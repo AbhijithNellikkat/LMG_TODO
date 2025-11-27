@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:lmg_todo/application/controller/todo_details_controller.dart';
-import 'package:lmg_todo/application/presentation/screens/add_or_edit/add_edit_screen.dart';
-import 'package:lmg_todo/application/presentation/screens/todo_details/widgets/timer_btn_card.dart';
-import 'package:lmg_todo/application/presentation/screens/todo_details/widgets/todo_detail_card.dart';
-import 'package:lmg_todo/application/presentation/utils/colors.dart';
-import 'package:lmg_todo/application/presentation/utils/constants.dart';
+import 'package:lmg_todo/todo%20app%20/application/controller/todo_details_controller.dart';
+import 'package:lmg_todo/todo%20app%20/application/presentation/screens/add_or_edit/add_edit_screen.dart';
+import 'package:lmg_todo/todo%20app%20/application/presentation/screens/todo_details/widgets/timer_btn_card.dart';
+import 'package:lmg_todo/todo%20app%20/application/presentation/screens/todo_details/widgets/todo_detail_card.dart';
+import 'package:lmg_todo/todo%20app%20/application/presentation/utils/colors.dart';
+import 'package:lmg_todo/todo%20app%20/application/presentation/utils/constants.dart';
 
 class ScreenTodoDetails extends StatelessWidget {
   const ScreenTodoDetails({super.key});

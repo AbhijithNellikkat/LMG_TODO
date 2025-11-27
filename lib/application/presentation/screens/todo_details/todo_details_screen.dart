@@ -1,87 +1,19 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:lmg_todo/application/controller/todo_details_controller.dart';
+import 'package:lmg_todo/application/presentation/screens/add_todo/add_todo_screen.dart';
 import 'package:lmg_todo/application/presentation/utils/colors.dart';
 import 'package:lmg_todo/application/presentation/utils/constants.dart';
 
-class ScreenTodoDetails extends StatefulWidget {
+class ScreenTodoDetails extends StatelessWidget {
   const ScreenTodoDetails({super.key});
 
   @override
-  State<ScreenTodoDetails> createState() => _ScreenTodoDetailsState();
-}
-
-class _ScreenTodoDetailsState extends State<ScreenTodoDetails> {
-  // Dummy Data
-  String title = "Morning Exercise";
-  String description =
-      "Complete 10 mins workout including stretching and warm-up.";
-  String status = "Pending";
-  int totalSeconds = 150; // 2 min 30 sec dummy time
-  late int remainingSeconds;
-
-  Timer? timer;
-  bool isRunning = false;
-
-  @override
-  void initState() {
-    super.initState();
-    remainingSeconds = totalSeconds;
-  }
-
-  String formatTime(int sec) {
-    final minutes = (sec ~/ 60).toString().padLeft(2, '0');
-    final seconds = (sec % 60).toString().padLeft(2, '0');
-    return "$minutes:$seconds";
-  }
-
-  void startTimer() {
-    if (isRunning) return;
-
-    setState(() {
-      isRunning = true;
-    });
-
-    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (remainingSeconds > 0) {
-        setState(() {
-          remainingSeconds--;
-        });
-      } else {
-        timer.cancel();
-        setState(() {
-          isRunning = false;
-          status = "Completed";
-        });
-      }
-    });
-  }
-
-  void pauseTimer() {
-    timer?.cancel();
-    setState(() {
-      isRunning = false;
-    });
-  }
-
-  void stopTimer() {
-    timer?.cancel();
-    setState(() {
-      isRunning = false;
-      remainingSeconds = totalSeconds;
-    });
-  }
-
-  @override
-  void dispose() {
-    timer?.cancel();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final controller = Get.find<TodoDetailsController>();
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -93,21 +25,7 @@ class _ScreenTodoDetailsState extends State<ScreenTodoDetails> {
                 children: [
                   GestureDetector(
                     onTap: () => Get.back(),
-                    child: Container(
-                      width: 45.w,
-                      height: 45.h,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: klightgrey),
-                        color: Theme.of(context).colorScheme.surface,
-                      ),
-                      child: Center(
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 5.w),
-                          child: Icon(Icons.arrow_back_ios, size: 18.sp),
-                        ),
-                      ),
-                    ),
+                    child: _circleIcon(context, Icons.arrow_back_ios),
                   ),
                   Expanded(
                     child: Center(
@@ -121,87 +39,108 @@ class _ScreenTodoDetailsState extends State<ScreenTodoDetails> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () => Get.back(),
-                    child: Container(
-                      width: 45.w,
-                      height: 45.h,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: klightgrey),
-                        color: Theme.of(context).colorScheme.surface,
-                      ),
-                      child: Center(
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 5.w),
-                          child: Icon(Iconsax.edit, size: 18.sp),
+                    onTap: () {
+                      Get.back();
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        showDragHandle: true,
+                        isDismissible: true,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(30),
+                          ),
                         ),
+                        builder: (context) =>
+                            AddEditTodoBottomSheet(todo: controller.todo.value),
+                      );
+                    },
+                    child: _circleIcon(context, Iconsax.edit),
+                  ),
+                ],
+              ),
+
+              adjustHieght(20.h),
+
+              // Title - Reactive
+              Obx(
+                () => Text(
+                  controller.todo.value.title,
+                  style: const TextStyle(
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                    color: kprimary,
+                  ),
+                ),
+              ),
+
+              adjustHieght(10.h),
+
+              // Status - Reactive
+              Obx(
+                () => Row(
+                  children: [
+                    const Text(
+                      "Status: ",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                  ),
-                ],
+                    Chip(
+                      label: Text(controller.todo.value.status),
+                      backgroundColor: _getStatusColor(
+                        controller.todo.value.status,
+                      ),
+                    ),
+                  ],
+                ),
               ),
+
               adjustHieght(20.h),
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold,
-                  color: kprimary,
+
+              // Description - Reactive
+              Obx(
+                () => Text(
+                  controller.todo.value.description,
+                  style: const TextStyle(fontSize: 16, height: 1.4),
                 ),
               ),
 
-              const SizedBox(height: 10),
+              adjustHieght(30.h),
 
-              Row(
-                children: [
-                  const Text(
-                    "Status: ",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                  ),
-                  Chip(
-                    label: Text(status),
-                    backgroundColor: status == "Completed"
-                        ? Colors.green.shade200
-                        : Colors.orange.shade200,
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 20),
-
-              Text(
-                description,
-                style: const TextStyle(fontSize: 16, height: 1.4),
-              ),
-
-              const SizedBox(height: 30),
-
+              // Timer Display - Reactive
               Center(
-                child: Text(
-                  formatTime(remainingSeconds),
-                  style: const TextStyle(
-                    fontSize: 48,
-                    fontWeight: FontWeight.bold,
+                child: Obx(
+                  () => Text(
+                    controller.formatTime(
+                      controller.todo.value.remainingSeconds,
+                    ),
+                    style: const TextStyle(
+                      fontSize: 48,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
 
-              const SizedBox(height: 30),
+              adjustHieght(30.h),
 
+              // Control Buttons
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   IconButton(
                     icon: const Icon(Iconsax.stop_circle, size: 40),
                     color: Colors.red,
-                    onPressed: stopTimer,
+                    onPressed: controller.stopTimer,
                   ),
                   const SizedBox(width: 20),
 
                   IconButton(
                     icon: const Icon(Iconsax.pause_circle, size: 40),
                     color: Colors.orange,
-                    onPressed: pauseTimer,
+                    onPressed: controller.pauseTimer,
                   ),
 
                   const SizedBox(width: 20),
@@ -209,7 +148,7 @@ class _ScreenTodoDetailsState extends State<ScreenTodoDetails> {
                   IconButton(
                     icon: const Icon(Iconsax.play_circle, size: 40),
                     color: Colors.green,
-                    onPressed: startTimer,
+                    onPressed: controller.startTimer,
                   ),
                 ],
               ),
@@ -218,5 +157,37 @@ class _ScreenTodoDetailsState extends State<ScreenTodoDetails> {
         ),
       ),
     );
+  }
+
+  Widget _circleIcon(BuildContext context, IconData icon) {
+    return Container(
+      width: 45.w,
+      height: 45.h,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(color: klightgrey),
+        color: Theme.of(context).colorScheme.surface,
+      ),
+      child: Center(
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: icon == Icons.arrow_back_ios ? 5.w : 0,
+          ),
+          child: Icon(icon, size: 18.sp),
+        ),
+      ),
+    );
+  }
+
+  Color _getStatusColor(String status) {
+    switch (status) {
+      case "Completed":
+        return Colors.green.shade200;
+      case "In-Progress":
+        return Colors.blue.shade200;
+      case "TODO":
+      default:
+        return Colors.orange.shade200;
+    }
   }
 }

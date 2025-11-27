@@ -3,23 +3,31 @@ import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:lmg_todo/application/presentation/routes/routes.dart';
 import 'package:lmg_todo/application/presentation/utils/colors.dart';
 import 'package:lmg_todo/application/presentation/utils/constants.dart';
+
+import '../../../controller/todo_controller.dart';
 
 class ScreenCalendar extends StatelessWidget {
   const ScreenCalendar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final EventController<Object?> _controller = EventController();
+    final controller = Get.find<TodoController>();
+    final eventController = EventController();
 
-    _controller.add(
-      CalendarEventData(
-        title: "Read Book",
-        description: "Read 20 pages",
-        date: DateTime(2025, 11, 28),
-      ),
-    );
+    /// Convert your todos → calendar events
+    controller.todos.forEach((todo) {
+      eventController.add(
+        CalendarEventData(
+          title: todo.title,
+          description: todo.description,
+          date: todo.createdAt, // ⭐ key line: filtering by created date
+        ),
+      );
+    });
+
     return Scaffold(
       backgroundColor: kwhite,
       appBar: AppBar(
@@ -34,22 +42,76 @@ class ScreenCalendar extends StatelessWidget {
         ),
       ),
       body: SafeArea(
-        child: MonthView(
-          headerStyle: HeaderStyle(decoration: BoxDecoration(color: kwhite)),
-          controller: _controller,
-          borderColor: klightgrey,
-          showWeekTileBorder: false,
-          // showWeekends: false,
-          borderSize: 0.5,
-          cellAspectRatio: 0.6,
+        child: Obx(() {
+          /// react when todos change
+          eventController.removeWhere((e) => true);
 
-          onCellTap: (events, date) {
-            showModalBottomSheet(
-              context: context,
-              builder: (_) => _TodoListForDay(events: events, date: date),
+          controller.todos.forEach((todo) {
+            eventController.add(
+              CalendarEventData(
+                title: todo.title,
+                description: todo.description,
+                date: todo.createdAt,
+                event: todo, // ⭐ also store the model
+              ),
             );
-          },
-        ),
+          });
+
+          return MonthView(
+            controller: eventController,
+            headerStyle: HeaderStyle(decoration: BoxDecoration(color: kwhite)),
+            borderColor: klightgrey,
+            showWeekTileBorder: false,
+
+            // showBorder: false,
+            borderSize: 0.5,
+            cellAspectRatio: 0.6,
+
+            /// Customize each day cell
+            cellBuilder: (date, event, isToday, isInMonth, hideDaysNotInMonth) {
+              Color bgColor = kwhite;
+              if (!isInMonth) {
+                bgColor = klightgrey;
+              } else if (event.isNotEmpty) {
+                bgColor = kprimary.withOpacity(0.2);
+              } else if (isToday) {
+                bgColor = Colors.yellow.shade200;
+              }
+
+              return Container(
+                alignment: Alignment.center,
+                decoration: BoxDecoration(color: bgColor),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      date.day.toString(),
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        fontWeight: isToday
+                            ? FontWeight.bold
+                            : FontWeight.normal,
+                        color: isInMonth ? Colors.black : Colors.grey,
+                      ),
+                    ),
+                    if (event.isNotEmpty)
+                      Badge.count(
+                        count: event.length,
+                        backgroundColor: kprimary,
+                        child: Icon(Iconsax.task),
+                      ),
+                  ],
+                ),
+              );
+            },
+
+            onCellTap: (events, date) {
+              showModalBottomSheet(
+                context: context,
+                builder: (_) => _TodoListForDay(events: events, date: date),
+              );
+            },
+          );
+        }),
       ),
     );
   }
@@ -81,12 +143,14 @@ class _TodoListForDay extends StatelessWidget {
                     itemCount: events.length,
                     itemBuilder: (context, index) {
                       final e = events[index];
+
                       return Card(
                         margin: const EdgeInsets.only(bottom: 10),
                         child: ListTile(
                           title: Text(e.title),
                           subtitle: Text(e.description ?? ''),
                           trailing: const Icon(Iconsax.arrow_right_3),
+                          onTap: () {},
                         ),
                       );
                     },

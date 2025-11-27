@@ -38,7 +38,7 @@ class ScreenNavbar extends StatelessWidget {
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
             ),
-            builder: (context) => AddTodoBottomSheet(),
+            builder: (context) => AddEditTodoBottomSheet(),
           );
         },
         backgroundColor: kprimary.withOpacity(0.7),

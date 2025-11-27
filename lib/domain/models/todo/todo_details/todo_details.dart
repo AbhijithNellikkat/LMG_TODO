@@ -1,46 +1,72 @@
-import 'package:json_annotation/json_annotation.dart';
-
-part 'todo_details.g.dart';
-
-@JsonSerializable()
 class TodoDetails {
-  int? localId;
+  // SQLite column names
+  static const String colTodoLocalId = "todo_local_id";
+  static const String colTodoId = "todo_id";
+  static const String colTitle = "title";
+  static const String colDescription = "description";
+  static const String colTotalSeconds = "total_seconds";
+  static const String colRemainingSeconds = "remaining_seconds";
+  static const String colStatus = "status";
+  static const String colIsRunning = "is_running";
+  static const String colCreatedAt = "created_at";
+  static const String colUpdatedAt = "updated_at";
 
-  int? id;
-  String? title;
-  String? description;
-  int? totalSeconds;
-  int? remainingSeconds;
-  String? status;
-  bool? isRunning;
-  DateTime? createdAt;
-  DateTime? updatedAt;
+  int? todoLocalId; // SQLite primary key
+  String? todoId; // Online ID (optional)
+  String title;
+  String description;
+  int totalSeconds;
+  int remainingSeconds;
+  String status;
+  bool isRunning;
+  DateTime createdAt;
+  DateTime updatedAt;
 
   TodoDetails({
-    this.id,
-    this.title,
-    this.description,
-    this.totalSeconds,
-    this.remainingSeconds,
-    this.status,
-    this.isRunning,
-    this.createdAt,
-    this.updatedAt,
+    this.todoLocalId,
+    this.todoId,
+    required this.title,
+    required this.description,
+    required this.totalSeconds,
+    required this.remainingSeconds,
+    required this.status,
+    required this.isRunning,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
-  @override
-  String toString() {
-    return 'TodoDetails(id: $id, title: $title, description: $description, totalSeconds: $totalSeconds, remainingSeconds: $remainingSeconds, status: $status, createdAt: $createdAt, updatedAt: $updatedAt)';
-  }
+  /// Convert model → SQLite Map
+  Map<String, dynamic> toMap() => {
+    colTodoLocalId: todoLocalId,
+    colTodoId: todoId,
+    colTitle: title,
+    colDescription: description,
+    colTotalSeconds: totalSeconds,
+    colRemainingSeconds: remainingSeconds,
+    colStatus: status,
+    colIsRunning: isRunning ? 1 : 0,
+    colCreatedAt: createdAt.toIso8601String(),
+    colUpdatedAt: updatedAt.toIso8601String(),
+  };
 
-  factory TodoDetails.fromJson(Map<String, dynamic> json) {
-    return _$TodoDetailsFromJson(json);
-  }
+  /// Convert SQLite Row → Model
+  factory TodoDetails.fromMap(Map<String, dynamic> map) => TodoDetails(
+    todoLocalId: map[colTodoLocalId],
+    todoId: map[colTodoId],
+    title: map[colTitle],
+    description: map[colDescription],
+    totalSeconds: map[colTotalSeconds],
+    remainingSeconds: map[colRemainingSeconds],
+    status: map[colStatus],
+    isRunning: map[colIsRunning] == 1,
+    createdAt: DateTime.parse(map[colCreatedAt]),
+    updatedAt: DateTime.parse(map[colUpdatedAt]),
+  );
 
-  Map<String, dynamic> toJson() => _$TodoDetailsToJson(this);
-
+  /// Copy with updates
   TodoDetails copyWith({
-    int? id,
+    int? todoLocalId,
+    String? todoId,
     String? title,
     String? description,
     int? totalSeconds,
@@ -51,7 +77,8 @@ class TodoDetails {
     DateTime? updatedAt,
   }) {
     return TodoDetails(
-      id: id ?? this.id,
+      todoLocalId: todoLocalId ?? this.todoLocalId,
+      todoId: todoId ?? this.todoId,
       title: title ?? this.title,
       description: description ?? this.description,
       totalSeconds: totalSeconds ?? this.totalSeconds,
@@ -59,19 +86,7 @@ class TodoDetails {
       status: status ?? this.status,
       isRunning: isRunning ?? this.isRunning,
       createdAt: createdAt ?? this.createdAt,
-
       updatedAt: updatedAt ?? this.updatedAt,
     );
   }
-
-  static const colTodoId = 'todo_id';
-  static const colTodoLocalId = 'todo_local_id';
-  static const colTitle = 'title';
-  static const colDescription = 'description';
-  static const colTotalSeconds = 'total_seconds';
-  static const colRemainingSeconds = 'remaining_seconds';
-  static const colIsRunning = 'is_running';
-  static const colStatus = 'status';
-  static const colCreatedAt = 'created_at';
-  static const colUpdatedAt = 'updated_at';
 }

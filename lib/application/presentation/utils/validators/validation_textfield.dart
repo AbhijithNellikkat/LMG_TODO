@@ -165,6 +165,16 @@ class ValidationTextField {
         }
         break;
 
+      case Validate.maxMinutes:
+        final int m = int.tryParse(value ?? "0") ?? 0;
+        if (m > 5) return 'Max 5 min';
+        return null;
+
+      case Validate.maxSeconds:
+        final int s = int.tryParse(value ?? "0") ?? 0;
+        if (s >= 60) return 'Max 59 sec';
+        return null;
+
       default:
         if (value == 'Content' && value!.length < 20) {
           return 'Content must be at least 20 characters';

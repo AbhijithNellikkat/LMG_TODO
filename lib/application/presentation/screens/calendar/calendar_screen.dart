@@ -17,16 +17,16 @@ class ScreenCalendar extends StatelessWidget {
     final controller = Get.find<TodoController>();
     final eventController = EventController();
 
-    /// Convert your todos → calendar events
-    controller.todos.forEach((todo) {
+    /// Convert todos to calendar events
+    for (var todo in controller.todos) {
       eventController.add(
         CalendarEventData(
           title: todo.title,
           description: todo.description,
-          date: todo.createdAt, // ⭐ key line: filtering by created date
+          date: todo.createdAt,
         ),
       );
-    });
+    }
 
     return Scaffold(
       backgroundColor: kwhite,

@@ -144,35 +144,35 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                   borderRadius: BorderRadius.circular(7),
                 )
               : OutlineInputBorder(
-                  borderRadius: widget.borderRadius ?? kBorderRadius50,
+                  borderRadius: widget.borderRadius ?? kBorderRadius20,
                   borderSide: BorderSide(color: kgrey.withOpacity(0.3)),
                 ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: widget.borderRadius ?? kBorderRadius50,
+            borderRadius: widget.borderRadius ?? kBorderRadius20,
             borderSide: const BorderSide(color: kprimary, width: 1),
           ),
           errorBorder: widget.showUnderline
               ? UnderlineInputBorder(
-                  borderRadius: widget.borderRadius ?? kBorderRadius50,
+                  borderRadius: widget.borderRadius ?? kBorderRadius20,
                   borderSide: const BorderSide(color: kred, width: 1),
                 )
               : OutlineInputBorder(
-                  borderRadius: widget.borderRadius ?? kBorderRadius50,
+                  borderRadius: widget.borderRadius ?? kBorderRadius20,
                   borderSide: const BorderSide(color: kred, width: 1),
                 ),
           focusedErrorBorder: widget.showUnderline
               ? UnderlineInputBorder(
-                  borderRadius: widget.borderRadius ?? kBorderRadius50,
+                  borderRadius: widget.borderRadius ?? kBorderRadius20,
                   borderSide: const BorderSide(color: kred, width: 1),
                 )
               : OutlineInputBorder(
-                  borderRadius: widget.borderRadius ?? kBorderRadius50,
+                  borderRadius: widget.borderRadius ?? kBorderRadius20,
                   borderSide: const BorderSide(color: kred, width: 1),
                 ),
           enabledBorder: widget.showUnderline
               ? const UnderlineInputBorder(borderSide: BorderSide(color: kgrey))
               : OutlineInputBorder(
-                  borderRadius: widget.borderRadius ?? kBorderRadius50,
+                  borderRadius: widget.borderRadius ?? kBorderRadius20,
                   borderSide: const BorderSide(color: knill, width: 1),
                 ),
         ),

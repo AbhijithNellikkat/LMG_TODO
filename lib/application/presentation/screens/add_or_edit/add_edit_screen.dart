@@ -6,10 +6,11 @@ import 'package:lmg_todo/application/controller/todo_controller.dart';
 import 'package:lmg_todo/application/presentation/utils/colors.dart';
 import 'package:lmg_todo/application/presentation/utils/constants.dart';
 import 'package:lmg_todo/application/presentation/widgets/custom_event_button.dart';
+import 'package:lmg_todo/application/presentation/widgets/custom_text_from_field.dart';
 import 'package:lmg_todo/domain/models/todo/todo_details/todo_details.dart';
 
 class AddEditTodoBottomSheet extends StatefulWidget {
-  final TodoDetails? todo; // null = add, not null = edit
+  final TodoDetails? todo;
 
   const AddEditTodoBottomSheet({super.key, this.todo});
 
@@ -41,7 +42,7 @@ class _AddEditTodoBottomSheetState extends State<AddEditTodoBottomSheet> {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<TodoController>();
-    final height = MediaQuery.of(context).size.height * 0.8;
+    final height = MediaQuery.of(context).size.height * 0.7;
 
     return Container(
       height: height,
@@ -56,7 +57,7 @@ class _AddEditTodoBottomSheetState extends State<AddEditTodoBottomSheet> {
             ).textTheme.headlineSmall!.copyWith(fontWeight: FontWeight.bold),
           ),
 
-          const SizedBox(height: 20),
+          adjustHieght(20.h),
 
           Text(
             isEdit
@@ -76,73 +77,60 @@ class _AddEditTodoBottomSheetState extends State<AddEditTodoBottomSheet> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    /// TITLE
-                    TextFormField(
+                    CustomTextFormField(
+                      hintText: 'Enter Todo Title',
+                      labelText: 'title',
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       controller: controller.titleCtrl,
-                      decoration: const InputDecoration(
-                        labelText: "Title",
-                        prefixIcon: Icon(Iconsax.note_text),
-                      ),
-                      validator: (value) =>
-                          value!.isEmpty ? "Enter a title" : null,
+                      prefixIcon: Icon(Iconsax.note_text),
+                      validate: Validate.notNull,
                     ),
-                    const SizedBox(height: 15),
-
-                    /// DESCRIPTION
-                    TextFormField(
+                    adjustHieght(15.h),
+                    CustomTextFormField(
+                      hintText: 'Enter Todo Description',
+                      labelText: 'description',
                       controller: controller.descCtrl,
-                      maxLines: 3,
-                      decoration: const InputDecoration(
-                        labelText: "Description",
-                        prefixIcon: Icon(Iconsax.textalign_left),
-                      ),
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validate: Validate.notNull,
+                      maxLines: 4,
                     ),
 
-                    const SizedBox(height: 20),
+                    adjustHieght(20.h),
 
-                    /// TIMER
                     Row(
                       children: [
                         Expanded(
-                          child: TextFormField(
+                          child: CustomTextFormField(
                             controller: controller.minCtrl,
-                            keyboardType: TextInputType.number,
-                            decoration: const InputDecoration(
-                              labelText: "Minutes",
-                              prefixIcon: Icon(Iconsax.timer),
-                            ),
-                            validator: (value) {
-                              int m = int.tryParse(value ?? "0") ?? 0;
-                              if (m > 5) return "Max 5 min";
-                              return null;
-                            },
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            inputType: TextInputType.number,
+                            labelText: 'Minutes',
+                            hintText: 'Minutes',
+                            validate: Validate.maxMinutes,
+                            prefixIcon: Icon(Iconsax.timer_1),
                           ),
                         ),
                         const SizedBox(width: 15),
                         Expanded(
-                          child: TextFormField(
+                          child: CustomTextFormField(
                             controller: controller.secCtrl,
-                            keyboardType: TextInputType.number,
-                            decoration: const InputDecoration(
-                              labelText: "Seconds",
-                              prefixIcon: Icon(Iconsax.timer_1),
-                            ),
-                            validator: (value) {
-                              int s = int.tryParse(value ?? "0") ?? 0;
-                              if (s >= 60) return "Max 59 sec";
-                              return null;
-                            },
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            inputType: TextInputType.number,
+                            labelText: 'Seconds',
+                            hintText: 'Seconds',
+                            validate: Validate.maxSeconds,
+                            prefixIcon: Icon(Iconsax.timer_1),
                           ),
                         ),
                       ],
                     ),
 
-                    const SizedBox(height: 30),
+                    adjustHieght(30.h),
 
-                    /// BUTTONS
                     Row(
                       children: [
-                        /// CANCEL
                         Expanded(
                           child: CustomEventButton(
                             text: 'Cancel',
@@ -157,9 +145,8 @@ class _AddEditTodoBottomSheetState extends State<AddEditTodoBottomSheet> {
                           ),
                         ),
 
-                        const SizedBox(width: 15),
+                        adjustWidth(15.h),
 
-                        /// SAVE / UPDATE
                         Expanded(
                           child: CustomEventButton(
                             text: isEdit ? "Update" : "Save",
@@ -168,7 +155,6 @@ class _AddEditTodoBottomSheetState extends State<AddEditTodoBottomSheet> {
                             shadow: false,
                             onTap: () async {
                               if (isEdit) {
-                                /// update existing todo
                                 TodoDetails updated = widget.todo!.copyWith(
                                   title: controller.titleCtrl.text.trim(),
                                   description: controller.descCtrl.text.trim(),
@@ -180,7 +166,6 @@ class _AddEditTodoBottomSheetState extends State<AddEditTodoBottomSheet> {
                                 Get.back();
                                 controller.clearAllTextEditingController();
                               } else {
-                                /// add new todo
                                 await controller.addTodo();
                               }
                             },

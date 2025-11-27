@@ -11,6 +11,8 @@ class TodoController extends GetxController {
 
   // Reactive state variables
   final RxList<TodoDetails> todos = <TodoDetails>[].obs;
+
+  // Loading state
   final RxBool isLoading = false.obs;
   final RxInt deletingTodoId = 0.obs;
   final RxBool isSaving = false.obs;
@@ -34,7 +36,6 @@ class TodoController extends GetxController {
 
   @override
   void onClose() {
-    // Dispose controllers
     titleCtrl.dispose();
     descCtrl.dispose();
     minCtrl.dispose();
@@ -85,28 +86,24 @@ class TodoController extends GetxController {
 
     // Validation
     if (totalSeconds == 0) {
-      Get.snackbar(
-        "Error",
-        "Timer cannot be 0 sec",
+      showCustomToast(
+        message: 'Please set a timer greater than 0 seconds',
         backgroundColor: kErrorRed,
-        colorText: Colors.white,
       );
       return;
     }
 
     if (totalSeconds > 300) {
-      Get.snackbar(
-        "Error",
-        "Maximum time is 5 minutes",
+      showCustomToast(
+        message: "Maximum allowed timer is 5 minutes (5:00)",
         backgroundColor: kErrorRed,
-        colorText: Colors.white,
       );
       return;
     }
 
     if (minutes == 5 && seconds > 0) {
       showCustomToast(
-        message: 'Max allowed is exactly 5:00 minutes',
+        message: 'Maximum time can only be exactly 5:00 minutes',
         backgroundColor: kErrorRed,
       );
       return;
@@ -131,11 +128,9 @@ class TodoController extends GetxController {
       response.fold(
         (failure) {
           log("Error adding: ${failure.message}");
-          Get.snackbar(
-            "Error",
-            "Failed to add todo: ${failure.message}",
+          showCustomToast(
+            message: "Oops! Could not add your todo. Please try again.",
             backgroundColor: kErrorRed,
-            colorText: Colors.white,
           );
         },
         (success) {
@@ -155,8 +150,8 @@ class TodoController extends GetxController {
   void clearAllTextEditingController() {
     titleCtrl.clear();
     descCtrl.clear();
-    minCtrl.text = "0";
-    secCtrl.text = "0";
+    minCtrl.text = "";
+    secCtrl.text = "";
   }
 
   // Delete todo from local db
@@ -171,21 +166,15 @@ class TodoController extends GetxController {
       response.fold(
         (failure) {
           log("Error deleting: ${failure.message}");
-          Get.snackbar(
-            "Error",
-            "Failed to delete todo: ${failure.message}",
+
+          showCustomToast(
+            message: "Oops! Could not delete the todo. Please try again.",
             backgroundColor: kErrorRed,
-            colorText: Colors.white,
           );
         },
         (success) {
           todos.removeWhere((t) => t.todoLocalId == todo.todoLocalId);
-          Get.snackbar(
-            "Success",
-            "Todo deleted successfully",
-            backgroundColor: Colors.green,
-            colorText: Colors.white,
-          );
+          showCustomToast(message: 'Todo deleted successfully');
         },
       );
     } catch (e) {
@@ -198,7 +187,6 @@ class TodoController extends GetxController {
   // Update todo in local db
   Future<void> updateTodo(TodoDetails todo) async {
     try {
-      // Ensure updatedAt is set
       todo.updatedAt = DateTime.now();
 
       final response = await service.updateTodoInLocalStorage(todo);
@@ -206,12 +194,10 @@ class TodoController extends GetxController {
       response.fold(
         (failure) {
           log("Failed to update todo: ${failure.message}");
-          Get.snackbar(
-            "Error",
-            "Failed to update todo: ${failure.message}",
+
+          showCustomToast(
+            message: "Oops! Could not update the todo. Please try again.",
             backgroundColor: kErrorRed,
-            colorText: Colors.white,
-            duration: const Duration(seconds: 2),
           );
         },
         (success) {
@@ -227,36 +213,6 @@ class TodoController extends GetxController {
       );
     } catch (e) {
       log("Exception updating todo: $e");
-      Get.snackbar(
-        "Error",
-        "Exception: $e",
-        backgroundColor: kErrorRed,
-        colorText: Colors.white,
-      );
-    }
-  }
-
-  // Update running todo (without logging)
-  Future<void> updateRunningTodo(TodoDetails todo) async {
-    todo.updatedAt = DateTime.now();
-
-    try {
-      final response = await service.updateTodoInLocalStorage(todo);
-
-      response.fold(
-        (failure) => log("Failed to update running todo: ${failure.message}"),
-        (success) {
-          int index = todos.indexWhere(
-            (t) => t.todoLocalId == todo.todoLocalId,
-          );
-          if (index != -1) {
-            todos[index] = todo;
-            todos.refresh();
-          }
-        },
-      );
-    } catch (e) {
-      log("Exception updating running todo: $e");
     }
   }
 }

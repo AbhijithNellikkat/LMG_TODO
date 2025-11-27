@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:circle_nav_bar/circle_nav_bar.dart';
 import 'package:get/get.dart';
@@ -28,21 +29,25 @@ class ScreenNavbar extends StatelessWidget {
         ),
         child: Obx(() => pages[navbarController.currentIndex.value]),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showModalBottomSheet(
-            context: context,
-            isScrollControlled: true,
-            showDragHandle: true,
-            isDismissible: true,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
-            ),
-            builder: (context) => AddEditTodoBottomSheet(),
-          );
-        },
-        backgroundColor: kprimary.withOpacity(0.7),
-        child: Icon(Iconsax.add, color: kwhite),
+      floatingActionButton: Pulse(
+        animate: true,
+
+        child: FloatingActionButton(
+          onPressed: () {
+            showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              showDragHandle: true,
+              isDismissible: true,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+              ),
+              builder: (context) => AddEditTodoBottomSheet(),
+            );
+          },
+          backgroundColor: kprimary.withOpacity(0.7),
+          child: Icon(Iconsax.add, color: kwhite),
+        ),
       ),
       bottomNavigationBar: Obx(
         () => CircleNavBar(

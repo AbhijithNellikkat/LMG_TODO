@@ -48,7 +48,6 @@ class TodoDetailsController extends GetxController {
 
     timer = Timer.periodic(const Duration(seconds: 1), (t) {
       if (todo.value.remainingSeconds > 0) {
-        // Update local state (UI updates immediately)
         todo.update((val) {
           val?.remainingSeconds--;
           val?.updatedAt = DateTime.now();
@@ -56,7 +55,7 @@ class TodoDetailsController extends GetxController {
 
         _ticksSinceLastSave++;
 
-        // Save to DB every 5 seconds OR on the last second
+        // Save to DB
         if (_ticksSinceLastSave >= _saveInterval ||
             todo.value.remainingSeconds == 0) {
           todoController.updateTodo(todo.value);
@@ -65,14 +64,12 @@ class TodoDetailsController extends GetxController {
       } else {
         t.cancel();
 
-        // Update local state
-        todo.update((val) {
-          val?.isRunning = false;
-          val?.status = "COMPLETED";
-          val?.updatedAt = DateTime.now();
+        todo.update((value) {
+          value?.isRunning = false;
+          value?.status = "COMPLETED";
+          value?.updatedAt = DateTime.now();
         });
 
-        // Update DB: completed
         todoController.updateTodo(todo.value);
       }
     });
@@ -81,14 +78,13 @@ class TodoDetailsController extends GetxController {
   void pauseTimer() {
     timer?.cancel();
 
-    // Update local state
-    todo.update((val) {
-      val?.isRunning = false;
-      val?.status = 'PAUSE';
-      val?.updatedAt = DateTime.now();
+    todo.update((value) {
+      value?.isRunning = false;
+      value?.status = 'PAUSE';
+      value?.updatedAt = DateTime.now();
     });
 
-    // Save current state to DB
+    // Save to DB
     todoController.updateTodo(todo.value);
     _ticksSinceLastSave = 0;
   }
@@ -96,23 +92,19 @@ class TodoDetailsController extends GetxController {
   void stopTimer() {
     timer?.cancel();
 
-    // Update local state
-    todo.update((val) {
-      val?.isRunning = false;
-      val?.remainingSeconds = val.totalSeconds;
-      val?.status = 'TODO';
-      val?.updatedAt = DateTime.now();
+    todo.update((value) {
+      value?.isRunning = false;
+      value?.remainingSeconds = value.totalSeconds;
+      value?.status = 'TODO';
+      value?.updatedAt = DateTime.now();
     });
 
-    // Update DB
     todoController.updateTodo(todo.value);
     _ticksSinceLastSave = 0;
   }
 
   @override
   void onClose() {
-    // timer?.cancel();
-
     // Save final state before closing if timer was running
     if (todo.value.isRunning || _ticksSinceLastSave > 0) {
       todo.update((val) {

@@ -67,89 +67,91 @@ class ScreenHome extends StatelessWidget {
               ),
               adjustHieght(20.h),
 
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Obx(() {
-                  final todoOnlyList = controller.todos
-                      .where((t) => t.status == 'TODO')
-                      .toList();
+              // Padding(
+              //   padding: const EdgeInsets.all(8.0),
+              //   child: Obx(() {
+              //     final todoOnlyList = controller.todos
+              //         .where((t) => t.status == 'TODO')
+              //         .toList();
 
-                  return Visibility(
-                    visible: todoOnlyList.isNotEmpty,
-                    child: CarouselSlider.builder(
-                      itemCount: todoOnlyList.length,
-                      options: CarouselOptions(
-                        height: 150.h,
-                        autoPlay: true,
-                        autoPlayInterval: const Duration(seconds: 3),
-                        enlargeCenterPage: true,
-                        viewportFraction: 0.75,
-                        enableInfiniteScroll: true,
-                        autoPlayCurve: Curves.fastOutSlowIn,
-                      ),
-                      itemBuilder: (context, index, realIndex) {
-                        final todo = todoOnlyList[index];
+              //     return Visibility(
+              //       visible: todoOnlyList.isNotEmpty,
+              //       child: CarouselSlider.builder(
+              //         itemCount: todoOnlyList.length,
+              //         options: CarouselOptions(
+              //           height: 150.h,
+              //           autoPlay: true,
+              //           autoPlayInterval: const Duration(seconds: 3),
+              //           enlargeCenterPage: true,
+              //           viewportFraction: 0.75,
+              //           enableInfiniteScroll: true,
+              //           autoPlayCurve: Curves.fastOutSlowIn,
+              //         ),
+              //         itemBuilder: (context, index, realIndex) {
+              //           final todo = todoOnlyList[index];
 
-                        String formatTime(int seconds) {
-                          final d = Duration(seconds: seconds);
-                          return d.toString().split('.').first;
-                        }
+              //           String formatTime(int seconds) {
+              //             final d = Duration(seconds: seconds);
+              //             return d.toString().split('.').first;
+              //           }
 
-                        final passedSeconds =
-                            todo.totalSeconds - todo.remainingSeconds;
+              //           final passedSeconds =
+              //               todo.totalSeconds - todo.remainingSeconds;
 
-                        return Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: kprimary.withOpacity(0.9),
-                            borderRadius: BorderRadius.circular(16),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.08),
-                                blurRadius: 10,
-                                offset: const Offset(0, 4),
-                              ),
-                            ],
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.all(26.w),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  todo.title,
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                SizedBox(height: 6),
-                                Text(
-                                  todo.description,
-                                  style: const TextStyle(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.normal,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  );
-                }),
-              ),
-
+              //           return Container(
+              //             width: double.infinity,
+              //             decoration: BoxDecoration(
+              //               color: kprimary.withOpacity(0.9),
+              //               borderRadius: BorderRadius.circular(16),
+              //               boxShadow: [
+              //                 BoxShadow(
+              //                   color: Colors.black.withOpacity(0.08),
+              //                   blurRadius: 10,
+              //                   offset: const Offset(0, 4),
+              //                 ),
+              //               ],
+              //             ),
+              //             child: Padding(
+              //               padding: EdgeInsets.all(26.w),
+              //               child: Column(
+              //                 crossAxisAlignment: CrossAxisAlignment.start,
+              //                 mainAxisAlignment: MainAxisAlignment.center,
+              //                 children: [
+              //                   Text(
+              //                     todo.title,
+              //                     style: const TextStyle(
+              //                       fontSize: 20,
+              //                       fontWeight: FontWeight.bold,
+              //                       color: Colors.white,
+              //                     ),
+              //                   ),
+              //                   SizedBox(height: 6),
+              //                   Text(
+              //                     todo.description,
+              //                     style: const TextStyle(
+              //                       fontSize: 10,
+              //                       fontWeight: FontWeight.normal,
+              //                       color: Colors.white,
+              //                     ),
+              //                   ),
+              //                 ],
+              //               ),
+              //             ),
+              //           );
+              //         },
+              //       ),
+              //     );
+              //   }),
+              // ),
               adjustHieght(20.h),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: SearchBar(
+                  controller: controller.searchCtrl,
+                  onChanged: (value) {
+                    controller.searchQuery.value = value.trim();
+                  },
                   hintText: 'Search....',
-
                   hintStyle: WidgetStatePropertyAll(
                     Theme.of(
                       context,
@@ -180,27 +182,22 @@ class ScreenHome extends StatelessWidget {
                   return ListView.builder(
                     shrinkWrap: true,
                     padding: EdgeInsets.all(16.w),
-                    itemCount: controller.todos.length,
+                    itemCount: controller.filteredTodos.length,
                     itemBuilder: (context, index) {
-                      final todo = controller.todos[index];
-                      Color borderColor = Colors.transparent;
+                      final todo = controller.filteredTodos[index];
+
                       IconData leadingIcon = Iconsax.task;
 
-                      if (todo.status == 'Completed') {
+                      if (todo.status == 'COMPLETED') {
                         leadingIcon = Iconsax.tick_circle;
                       } else if (todo.status == 'TODO') {
                         leadingIcon = Iconsax.timer;
-                      } else if (todo.status == 'PENDING') {
-                        leadingIcon = Iconsax.timer;
+                      } else if (todo.status == 'In-PROGRESS') {
+                        leadingIcon = Icons.radar;
+                      } else if (todo.status == 'PAUSE') {
+                        leadingIcon = Icons.pause;
                       }
 
-                      if (todo.status == 'Completed') {
-                        borderColor = kgreen.withOpacity(0.6);
-                      } else if (todo.status == 'TODO') {
-                        borderColor = kOrange.withOpacity(0.4);
-                      } else if (todo.status == 'PENDING') {
-                        borderColor = kblue;
-                      }
                       return FadeInUp(
                         animate: true,
                         from: 10,
@@ -215,25 +212,21 @@ class ScreenHome extends StatelessWidget {
                                 );
                               },
                               leading: CircleAvatar(
-                                backgroundColor: borderColor,
-                                child: Icon(
-                                  leadingIcon,
-                                  color: borderColor.withOpacity(0.9),
-                                ),
+                                child: Icon(leadingIcon, color: kwhite),
                               ),
                               title: Text(
                                 todo.title,
                                 style: Theme.of(context).textTheme.bodyMedium,
                               ),
                               subtitle: Text(
-                                todo.description,
+                                formatSeconds(todo.remainingSeconds),
                                 maxLines: 2,
                                 style: Theme.of(context).textTheme.bodySmall,
                               ),
                               trailing: Obx(() {
                                 bool isDeleting =
                                     controller.deletingTodoId.value ==
-                                    todo.todoId;
+                                    todo.todoLocalId;
 
                                 return GestureDetector(
                                   onTap: isDeleting
@@ -284,6 +277,12 @@ class ScreenHome extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String formatSeconds(int sec) {
+    final minutes = (sec ~/ 60).toString().padLeft(1, '0');
+    final seconds = (sec % 60).toString().padLeft(2, '0');
+    return "$minutes:$seconds";
   }
 
   String formatDuration(Duration d) {

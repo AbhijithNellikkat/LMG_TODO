@@ -8,6 +8,7 @@ class AllControllerBindings implements Bindings {
   void dependencies() {
     Get.put(NavbarController(), permanent: true);
     Get.put(TodoController(), permanent: true);
+    // Get.put(TodoController(), permanent: true);
     Get.lazyPut(() => TodoDetailsController(), fenix: true);
   }
 }

@@ -5,7 +5,6 @@ import 'package:lmg_todo/application/presentation/utils/colors.dart';
 import 'package:lmg_todo/application/presentation/utils/tost/flutter_tost.dart';
 import 'package:lmg_todo/data/service/todo/todo_service.dart';
 import 'package:lmg_todo/domain/models/todo/todo_details/todo_details.dart';
-import 'package:uuid/uuid.dart';
 
 class TodoController extends GetxController {
   final TodoService service = TodoService();
@@ -13,10 +12,13 @@ class TodoController extends GetxController {
   // Reactive state variables
   final RxList<TodoDetails> todos = <TodoDetails>[].obs;
   final RxBool isLoading = false.obs;
-  final RxString deletingTodoId = ''.obs;
+  final RxInt deletingTodoId = 0.obs;
   final RxBool isSaving = false.obs;
 
   final formKey = GlobalKey<FormState>();
+
+  final TextEditingController searchCtrl = TextEditingController();
+  final RxString searchQuery = ''.obs;
 
   // Text Controllers
   final TextEditingController titleCtrl = TextEditingController();
@@ -37,6 +39,7 @@ class TodoController extends GetxController {
     descCtrl.dispose();
     minCtrl.dispose();
     secCtrl.dispose();
+    searchCtrl.dispose();
     super.onClose();
   }
 
@@ -49,12 +52,6 @@ class TodoController extends GetxController {
       response.fold(
         (failure) {
           log("Error loading todos: ${failure.message}");
-          Get.snackbar(
-            "Error",
-            "Failed to load todos: ${failure.message}",
-            backgroundColor: kErrorRed,
-            colorText: Colors.white,
-          );
         },
         (success) {
           todos.value = success;
@@ -65,6 +62,17 @@ class TodoController extends GetxController {
     } finally {
       isLoading.value = false;
     }
+  }
+
+  List<TodoDetails> get filteredTodos {
+    if (searchQuery.isEmpty) return todos;
+
+    final query = searchQuery.value.toLowerCase();
+
+    return todos.where((t) {
+      return t.title.toLowerCase().contains(query) ||
+          t.description.toLowerCase().contains(query);
+    }).toList();
   }
 
   // Save new todo to local db
@@ -107,11 +115,7 @@ class TodoController extends GetxController {
     isSaving.value = true;
 
     try {
-      // Generate unique id
-      final String uniqueId = const Uuid().v4();
-
       final todo = TodoDetails(
-        todoId: uniqueId,
         title: titleCtrl.text.trim(),
         description: descCtrl.text.trim(),
         totalSeconds: totalSeconds,
@@ -138,12 +142,7 @@ class TodoController extends GetxController {
           Get.back();
           clearAllTextEditingController();
           loadTodos();
-          Get.snackbar(
-            "Success",
-            "Todo added successfully",
-            backgroundColor: Colors.green,
-            colorText: Colors.white,
-          );
+          showCustomToast(message: "Todo added successfully");
         },
       );
     } catch (e) {
@@ -164,7 +163,7 @@ class TodoController extends GetxController {
   Future<void> deleteTodo(TodoDetails todo) async {
     if (todo.todoLocalId == null) return;
 
-    deletingTodoId.value = todo.todoId ?? "";
+    deletingTodoId.value = todo.todoLocalId ?? 0;
 
     try {
       final response = await service.deleteTodo(todo.todoLocalId!);
@@ -192,7 +191,7 @@ class TodoController extends GetxController {
     } catch (e) {
       log("Exception deleting todo: $e");
     } finally {
-      deletingTodoId.value = "";
+      deletingTodoId.value = 0;
     }
   }
 
@@ -216,7 +215,9 @@ class TodoController extends GetxController {
           );
         },
         (success) {
-          int index = todos.indexWhere((t) => t.todoId == todo.todoId);
+          int index = todos.indexWhere(
+            (t) => t.todoLocalId == todo.todoLocalId,
+          );
           if (index != -1) {
             todos[index] = todo;
             todos.refresh();
@@ -245,7 +246,9 @@ class TodoController extends GetxController {
       response.fold(
         (failure) => log("Failed to update running todo: ${failure.message}"),
         (success) {
-          int index = todos.indexWhere((t) => t.todoId == todo.todoId);
+          int index = todos.indexWhere(
+            (t) => t.todoLocalId == todo.todoLocalId,
+          );
           if (index != -1) {
             todos[index] = todo;
             todos.refresh();
@@ -255,24 +258,5 @@ class TodoController extends GetxController {
     } catch (e) {
       log("Exception updating running todo: $e");
     }
-  }
-
-  // Get todo by ID
-  TodoDetails? getTodoById(String todoId) {
-    try {
-      return todos.firstWhere((todo) => todo.todoId == todoId);
-    } catch (e) {
-      return null;
-    }
-  }
-
-  // Get todos by status
-  List<TodoDetails> getTodosByStatus(String status) {
-    return todos.where((todo) => todo.status == status).toList();
-  }
-
-  // Get running todos
-  List<TodoDetails> getRunningTodos() {
-    return todos.where((todo) => todo.isRunning).toList();
   }
 }

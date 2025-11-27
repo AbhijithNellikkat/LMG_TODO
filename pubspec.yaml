@@ -43,7 +43,6 @@ dependencies:
   dartz: ^0.10.1
   iconsax: ^0.0.8
   animated_text_kit: ^4.3.0
-  uuid: ^4.5.2
   
 
 dev_dependencies:

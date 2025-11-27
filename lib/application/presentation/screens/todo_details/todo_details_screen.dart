@@ -109,48 +109,60 @@ class ScreenTodoDetails extends StatelessWidget {
 
               adjustHieght(30.h),
 
-              // Timer Display - Reactive
               Center(
                 child: Obx(
-                  () => Text(
-                    controller.formatTime(
-                      controller.todo.value.remainingSeconds,
-                    ),
-                    style: const TextStyle(
-                      fontSize: 48,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  () => controller.todo.value.status == 'COMPLETED'
+                      ? Text(
+                          controller.formatTime(
+                            controller.todo.value.totalSeconds,
+                          ),
+                          style: const TextStyle(
+                            fontSize: 48,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )
+                      : Text(
+                          controller.formatTime(
+                            controller.todo.value.remainingSeconds,
+                          ),
+                          style: const TextStyle(
+                            fontSize: 48,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                 ),
               ),
-
               adjustHieght(30.h),
 
               // Control Buttons
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    icon: const Icon(Iconsax.stop_circle, size: 40),
-                    color: Colors.red,
-                    onPressed: controller.stopTimer,
-                  ),
-                  const SizedBox(width: 20),
+              Obx(
+                () => controller.todo.value.status == 'COMPLETED'
+                    ? SizedBox.shrink()
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            icon: const Icon(Iconsax.stop_circle, size: 40),
+                            color: Colors.red,
+                            onPressed: controller.stopTimer,
+                          ),
+                          const SizedBox(width: 20),
 
-                  IconButton(
-                    icon: const Icon(Iconsax.pause_circle, size: 40),
-                    color: Colors.orange,
-                    onPressed: controller.pauseTimer,
-                  ),
+                          IconButton(
+                            icon: const Icon(Iconsax.pause_circle, size: 40),
+                            color: Colors.orange,
+                            onPressed: controller.pauseTimer,
+                          ),
 
-                  const SizedBox(width: 20),
+                          const SizedBox(width: 20),
 
-                  IconButton(
-                    icon: const Icon(Iconsax.play_circle, size: 40),
-                    color: Colors.green,
-                    onPressed: controller.startTimer,
-                  ),
-                ],
+                          IconButton(
+                            icon: const Icon(Iconsax.play_circle, size: 40),
+                            color: Colors.green,
+                            onPressed: controller.startTimer,
+                          ),
+                        ],
+                      ),
               ),
             ],
           ),

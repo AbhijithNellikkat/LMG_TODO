@@ -1,7 +1,7 @@
 class TodoDetails {
   // SQLite column names
   static const String colTodoLocalId = "todo_local_id";
-  static const String colTodoId = "todo_id";
+
   static const String colTitle = "title";
   static const String colDescription = "description";
   static const String colTotalSeconds = "total_seconds";
@@ -12,7 +12,7 @@ class TodoDetails {
   static const String colUpdatedAt = "updated_at";
 
   int? todoLocalId; // SQLite primary key
-  String? todoId; // Online ID (optional)
+
   String title;
   String description;
   int totalSeconds;
@@ -24,7 +24,7 @@ class TodoDetails {
 
   TodoDetails({
     this.todoLocalId,
-    this.todoId,
+
     required this.title,
     required this.description,
     required this.totalSeconds,
@@ -38,7 +38,7 @@ class TodoDetails {
   /// Convert model → SQLite Map
   Map<String, dynamic> toMap() => {
     colTodoLocalId: todoLocalId,
-    colTodoId: todoId,
+
     colTitle: title,
     colDescription: description,
     colTotalSeconds: totalSeconds,
@@ -52,7 +52,7 @@ class TodoDetails {
   /// Convert SQLite Row → Model
   factory TodoDetails.fromMap(Map<String, dynamic> map) => TodoDetails(
     todoLocalId: map[colTodoLocalId],
-    todoId: map[colTodoId],
+
     title: map[colTitle],
     description: map[colDescription],
     totalSeconds: map[colTotalSeconds],
@@ -78,7 +78,7 @@ class TodoDetails {
   }) {
     return TodoDetails(
       todoLocalId: todoLocalId ?? this.todoLocalId,
-      todoId: todoId ?? this.todoId,
+
       title: title ?? this.title,
       description: description ?? this.description,
       totalSeconds: totalSeconds ?? this.totalSeconds,

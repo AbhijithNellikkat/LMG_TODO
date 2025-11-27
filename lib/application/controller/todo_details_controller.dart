@@ -10,15 +10,20 @@ class TodoDetailsController extends GetxController {
   late Rx<TodoDetails> todo;
   Timer? timer;
 
-  // Track when to save to DB (every 5 seconds instead of every second)
+  // Track when to save to DB (every 5 seconds)
   int _ticksSinceLastSave = 0;
-  static const int _saveInterval = 5; // Save every 5 seconds
+  static const int _saveInterval = 5;
 
   @override
   void onInit() {
     super.onInit();
-    // Get the todo passed as argument
-    todo = (Get.arguments as TodoDetails).obs;
+    final args = Get.arguments;
+    if (args == null || args is! TodoDetails) {
+      log("TodoDetailsController received null/invalid arguments");
+      return;
+    }
+
+    todo = args.obs;
   }
 
   String formatTime(int sec) {
@@ -33,7 +38,7 @@ class TodoDetailsController extends GetxController {
     // Update local state
     todo.update((val) {
       val?.isRunning = true;
-      val?.status = 'In-Progress';
+      val?.status = 'In-PROGRESS';
       val?.updatedAt = DateTime.now();
     });
 
@@ -63,7 +68,7 @@ class TodoDetailsController extends GetxController {
         // Update local state
         todo.update((val) {
           val?.isRunning = false;
-          val?.status = "Completed";
+          val?.status = "COMPLETED";
           val?.updatedAt = DateTime.now();
         });
 
@@ -79,6 +84,7 @@ class TodoDetailsController extends GetxController {
     // Update local state
     todo.update((val) {
       val?.isRunning = false;
+      val?.status = 'PAUSE';
       val?.updatedAt = DateTime.now();
     });
 
@@ -105,7 +111,7 @@ class TodoDetailsController extends GetxController {
 
   @override
   void onClose() {
-    timer?.cancel();
+    // timer?.cancel();
 
     // Save final state before closing if timer was running
     if (todo.value.isRunning || _ticksSinceLastSave > 0) {

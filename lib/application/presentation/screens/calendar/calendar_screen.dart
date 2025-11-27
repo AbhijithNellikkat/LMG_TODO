@@ -3,9 +3,7 @@ import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:lmg_todo/application/presentation/routes/routes.dart';
 import 'package:lmg_todo/application/presentation/utils/colors.dart';
-import 'package:lmg_todo/application/presentation/utils/constants.dart';
 
 import '../../../controller/todo_controller.dart';
 
@@ -43,7 +41,6 @@ class ScreenCalendar extends StatelessWidget {
       ),
       body: SafeArea(
         child: Obx(() {
-          /// react when todos change
           eventController.removeWhere((e) => true);
 
           controller.todos.forEach((todo) {
@@ -52,7 +49,7 @@ class ScreenCalendar extends StatelessWidget {
                 title: todo.title,
                 description: todo.description,
                 date: todo.createdAt,
-                event: todo, // ⭐ also store the model
+                event: todo,
               ),
             );
           });
@@ -62,12 +59,9 @@ class ScreenCalendar extends StatelessWidget {
             headerStyle: HeaderStyle(decoration: BoxDecoration(color: kwhite)),
             borderColor: klightgrey,
             showWeekTileBorder: false,
-
-            // showBorder: false,
             borderSize: 0.5,
             cellAspectRatio: 0.6,
 
-            /// Customize each day cell
             cellBuilder: (date, event, isToday, isInMonth, hideDaysNotInMonth) {
               Color bgColor = kwhite;
               if (!isInMonth) {
